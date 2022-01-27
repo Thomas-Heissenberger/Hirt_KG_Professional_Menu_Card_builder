@@ -49,6 +49,7 @@
     }
   },
   "dependencies": {
+    "@electron/remote": "^2.0.4",
     "concurrently": "^7.0.0",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.0",
