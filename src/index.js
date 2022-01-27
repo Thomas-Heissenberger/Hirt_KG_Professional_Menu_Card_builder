@@ -1,7 +1,5 @@
-const remoteMain = require('@electron/remote/main');
-const { app, BrowserWindow, screen } = require('electron');
+const { app, BrowserWindow, screen, ipcMain } = require('electron');
 const path = require('path');
-remoteMain.initialize();
 
 try {
   require('electron-reloader')(module);
@@ -22,11 +20,20 @@ const createWindow = () => {
     frame: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
-  remoteMain.enable(mainWindow.webContents);
+  ipcMain.handle('windowControl', (_event, data) => {
+    if (data === 'close') {
+      mainWindow.close()
+    } else if (data === 'minimize') {
+      mainWindow.minimize();
+    } else if (data === 'maximize') {
+      mainWindow.maximize();
+    } else if (data === 'unmaximize') {
+      mainWindow.unmaximize();
+    }
+  });
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, '../public/index.html'));
 

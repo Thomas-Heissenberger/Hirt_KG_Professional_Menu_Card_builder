@@ -1,14 +1,13 @@
-const win = require('@electron/remote').getCurrentWindow();
-console.log(win);
+const { ipcRenderer } = require('electron');
 const closeButton = document.querySelector('.button.close');
 const minimizeButton = document.querySelector('.button.minimize');
 const maximizeButton = document.querySelector('.button.maximize');
 
 let isMaximized = false;
 
-closeButton.addEventListener('click', () => win.close());
-minimizeButton.addEventListener('click', () => win.minimize());
+closeButton.addEventListener('click', () => ipcRenderer.invoke('windowControl', 'close'));
+minimizeButton.addEventListener('click', () => ipcRenderer.invoke('windowControl', 'minimize'));
 maximizeButton.addEventListener('click', () => {
     isMaximized = !isMaximized;
-    isMaximized ? win.unmaximize() : win.maximize();
+    ipcRenderer.invoke('windowControl', isMaximized ? 'unmaximize' : 'maximize');
 });
