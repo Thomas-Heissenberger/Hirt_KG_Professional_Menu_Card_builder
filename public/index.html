@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>Svelte app</title>
 
-	<title>Svelte app</title>
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./build/bundle.css" />
+    <link rel="stylesheet" href="./titlebar.css" />
+    <link rel="stylesheet" href="./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="./assets/styles/tailwind.css" />
+    <script defer src="./build/bundle.js"></script>
+    <script src="./controls.js" defer=""></script>
+  </head>
 
-	<link rel='icon' type='image/png' href='./favicon.png'>
-	<link rel='stylesheet' href='./global.css'>
-	<link rel='stylesheet' href='./build/bundle.css'>
-	<link rel="stylesheet" href="./titlebar.css">
-    <link
-    rel="stylesheet"
-    href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-  />
-  <link rel="stylesheet" href="/assets/styles/tailwind.css" />
-	<script defer src='./build/bundle.js'></script>
-	<script src="./controls.js" defer=""></script>
-</head>
-
-<header id="titlebar">
+  <header id="titlebar">
     <div class="draggable">
-        <div class="controls">
-            <span class="button close"></span>
-            <span class="button minimize"></span>
-            <span class="button maximize"></span>
-        </div>
+      <div class="controls">
+        <span class="button close"></span>
+        <span class="button minimize"></span>
+        <span class="button maximize"></span>
+      </div>
 
-        <span class="title">
-            <script>document.write(document.title)</script>
-        </span>
+      <span class="title">
+        <script>
+          document.write(document.title);
+        </script>
+      </span>
     </div>
-</header>
-<body>
-</body>
+  </header>
+  <body></body>
 </html>
