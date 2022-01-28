@@ -2,8 +2,6 @@
     import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
     import MenuPicker from './MenuPicker.svelte';
     import LayoutGrid, { Cell } from '@smui/layout-grid';
-
-    const TRUE : boolean = true;
   </script>
 
 
