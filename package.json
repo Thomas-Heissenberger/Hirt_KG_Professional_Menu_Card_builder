@@ -16,6 +16,9 @@
     "email": "64338399+Thomas-Heissenberger@users.noreply.github.com"
   },
   "license": "MIT",
+  "files":[
+    "node_modules/svelte-material-ui/bare.css"
+  ],
   "dependencies": {
     "@rollup/plugin-alias": "3.1.2",
     "chart.js": "2.9.4",
