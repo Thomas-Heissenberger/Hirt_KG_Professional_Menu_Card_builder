@@ -16,7 +16,7 @@
     "email": "64338399+Thomas-Heissenberger@users.noreply.github.com"
   },
   "license": "MIT",
-  "files":[
+  "files": [
     "node_modules/svelte-material-ui/bare.css"
   ],
   "dependencies": {

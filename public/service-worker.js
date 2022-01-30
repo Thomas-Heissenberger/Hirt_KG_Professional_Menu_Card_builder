@@ -9,7 +9,7 @@ const FILES_TO_CACHE = [
 ];
 
 self.addEventListener('install', (evt) => {
-  console.log('[ServiceWorker] Install');
+ // console.log('[ServiceWorker] Install');
 
   evt.waitUntil(
       caches.open(CACHE_NAME).then((cache) => {
@@ -22,7 +22,7 @@ self.addEventListener('install', (evt) => {
 });
 
 self.addEventListener('activate', (evt) => {
-  console.log('[ServiceWorker] Activate');
+  //console.log('[ServiceWorker] Activate');
   // Remove previous cached data from disk.
   evt.waitUntil(
       caches.keys().then((keyList) => {
