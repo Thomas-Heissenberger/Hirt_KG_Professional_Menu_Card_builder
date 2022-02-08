@@ -3,43 +3,62 @@
     import Checkbox from '@smui/checkbox';
     import Radio from '@smui/radio';
     import FormField from '@smui/form-field'
-    export let isInactive: boolean | undefined = true;
+    import App from './App.svelte';
+    import { beforeUpdate, afterUpdate, onMount } from 'svelte';
+    export let isInactive: boolean = true;
+    
 
     let options = [
       {
         name: 'Broom',
         description: 'A wooden handled broom.',
-        isActive: false,
       },
       {
         name: 'Dust Pan',
         description: 'A plastic dust pan.',
-        isActive: false,
       },
       {
         name: 'Mop',
         description: 'A strong, durable mop.',
-        isActive: false,
       },
       {
         name: 'Horse',
         description: "She's got some miles on her.",
-        isActive: false,
       },
       {
         name: 'Bucket',
         description: 'A metal bucket.',
-        isActive: false,
+      },
+      {
+        name: 'Bucket 2',
+        description: 'A metal bucket.',
+
       },
     ];
+
+ 
+
     //Current Selected Item
-    let selected = [options[2]];
+    export let index:number;
+    $: selected = options[index];
+    
     //Activate the Data Form 
     let checked = isInactive || false;
-    
+      
+    $: {
+      console.log("selected: " + selected.name);
+    }
+
+    afterUpdate(()=>{
+      console.log(index);
+    });
+    /* onMount(()=>{
+     index=index;
+    }); */
+
   </script>
    
-   <pre class="status" style="color:black">Selected: {selected.name} Active: {checked}</pre>
+   <pre class="status" style="color:black">Selected: {selected} Active: {index} </pre>
    <div>
     <FormField>
       <Checkbox bind:checked />
@@ -57,7 +76,7 @@
         </Cell>
         <Cell>Name</Cell>
         <Cell>Description</Cell>
-        <Cell boolean>Active</Cell>
+        <Cell>Beilagen</Cell>
       </Row>
     </Head>
     <Body>
@@ -66,11 +85,12 @@
           <Cell >
             <Radio bind:group={selected}
             value={option}
-           disabled={option.isActive}/>
+            on:click={()=>{index=options.findIndex(value => value.name===option.name)}}
+           />
           </Cell>
           <Cell>{option.name}</Cell>
           <Cell>{option.description}</Cell>
-          <Cell boolean>{option.isActive}</Cell>
+          <Cell>Beilagen</Cell>
         </Row>
       {/each}
     </Body>

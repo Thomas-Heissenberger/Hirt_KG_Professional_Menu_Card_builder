@@ -20,11 +20,7 @@
   }
 
 </script>
-
-<Button on:click={()=>t++}>
-	<Label>Click Me!</Label>
-</Button>	
-<h1>{t}</h1>
+<h1>Die Hirt KG Professional Suite Menüempfehlungen Generatorpolynom V1 Pro Version ©️</h1>
   <!--
 	  Note: when you bind to `invalid`, but you only want to
 	  monitor it instead of updating it yourself, you also

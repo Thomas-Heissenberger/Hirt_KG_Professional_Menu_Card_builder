@@ -3,6 +3,7 @@
     import MenuPickerLayout from './MenuPickerLayout.svelte'
     import MenuPicker from './MenuPicker.svelte';
     import LayoutGrid, { Cell } from '@smui/layout-grid';
+import MenuTabs from './MenuTabs.svelte';
 
     const TRUE : boolean = true;
   </script>
@@ -10,24 +11,27 @@
 <div class="accordion-container">
     <Accordion> 
       <Panel>
-        <Header>Montag
-            <span slot="description">Description of panel 1.</span>
-        </Header>
-        <Content>
+        <Header>Wochenmenüs
+          <span slot="description">Description of panel 1.</span>
+      </Header>
+      <Content>
+          <MenuTabs menus={3} startcount= {3}/>
+      </Content>
+    </Panel>
+    <Panel>
+      <Header>Montag
+        <span slot="description">Description of panel 1.</span>
+    </Header>
+    <Content>
 
-          <ul>
-            <li>Some</li>
-            <li>List</li>
-            <li>Items</li>
-          </ul>
-        </Content>
-      </Panel>
-      <Panel>
+    </Content>
+  </Panel>
+  <Panel>
         <Header>Dienstag
             <span slot="description">Description of panel 2.</span>
         </Header>
         <Content >
-            <MenuPickerLayout/>
+          <!-- <MenuTabs menus={2} startcount= {1} /> -->
         </Content>
       </Panel>
       <Panel>
@@ -35,7 +39,7 @@
             <span slot="description">Description of panel 3.</span>
         </Header>
         <Content>
-            <MenuPickerLayout/>
+          <!-- <MenuTabs menus={2} startcount= {1} /> -->
         </Content>
       </Panel>
       <Panel>
