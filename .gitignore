@@ -88,4 +88,11 @@ typings/
 # Electron-Forge
 out/
 
+# env
+.env
+
+# build
 public/build
+
+# server test folder
+src/server/test/

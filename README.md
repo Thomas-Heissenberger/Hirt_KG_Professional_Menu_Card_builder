@@ -1,24 +1,62 @@
 # Hirt_KG_Professional_Menu_Card_builder
-Weil i wirklich ned was wos i do schreibn sull griagts mei persönliche Beschreibung von olle npm scripts de wos ma hom
-
-**Commands:**
-```json
-{
-    "svelte-build":"brauchst ned",
-    "svelte-dev":"brauchst a ned",
-    "svelte-start":"brauchst nua wennst zu schlecht bist Electron und Svelte mit Typescript aufzum setzn und ned wast wiest as sunst no aussafinden suist wos foisch grent is, du wappla",
-    "start":"i man is hoid da standard start command, is ned so sponnend gö",
-    "package":"no nie gheat des ding, i was ned wos des mocht",
-    "make": "i schätz amol wennst a exe draus mochn wüst brauchst des",
-    "publish": "oda vllt brauchst a des, i was ned",
-    "lint": "wos bist du Deitsch Lehrer?",
-    "check": "wenn dei Typescript ned geht donn mochst des a boa mol bist aufgibst und ois löscht",
-
-}
+Weil i wirklich ned was wos i do schreibn sull griagts mei persönliche Beschreibung von zeigs wos ma so hom
+## .env Variablen
+>Bitte dua ma an gfolln und moch a **'.env'** file im root Verzeichnis mit die folgenden Variablen, sunst blea i:
+```emoji
+SERVERPORT=...           dua wost wüst
+OUTPUTDIRECTORY=...      dua wost wüst
+INPUTDIRECTORY=...       is Verzeichnis wo die Template Docx drinnan is
+TEMPLATEFILENAME=...     Noman vom Template Docx
+RESULTFILENAME=...       Noman vom Docx wos drinnan gspeichat wean sui
+JSONFILENAME=...         hawara gonz ealich i was söwa ned amol warum des do is
+EXTENSION=...            docx|doc wos ondas geht ned (doc hob i no nie getestet 😂)
 ```
 
-## i bin cool
+## Project Strucutre
 
-* test123
-* test234
-
+```pre
+├───public
+│   │   favicon.png
+│   │   global.css
+│   │   index.html
+│   │   manifest.json
+│   │   service-worker.js
+│   │   titlebar.css
+│   │
+│   ├───build
+│   │       bundle.css
+│   │       bundle.js
+│   │       bundle.js.map
+│   │
+│   └───images
+│       └───icons
+│               icon-128x128.png
+│               icon-144x144.png
+│               icon-152x152.png
+│               icon-192x192.png
+│               icon-256x256.png
+│               icon-32x32.png
+│               icon-512x512.png
+│               maskable_icon.png
+│
+└───src
+    │   App.svelte
+    │   CreateMenu.svelte
+    │   global.d.ts
+    │   Menu.ts
+    │   MenuPicker.svelte
+    │   MenuPickerLayout.svelte
+    │   Preview.svelte
+    │   SelectMenu.svelte
+    │   svelte.ts
+    │   UtilsTest.svelte
+    │
+    └───server
+        │   data.json
+        │   menuCreator.js
+        │   Wappla.docx
+        │
+        └───test
+                MenuCard.docx
+                MenuCard.pdf
+```
