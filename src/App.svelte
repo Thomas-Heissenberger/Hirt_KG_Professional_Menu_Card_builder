@@ -6,6 +6,7 @@
   import HelperText from "@smui/textfield/helper-text";
   import SelectMenu from "./SelectMenu.svelte";
   import Button, {Label} from '@smui/button';
+  import Preview from "./Preview.svelte";
 
   let focused = false;
   let value: string | null = null;
@@ -26,4 +27,16 @@
 	  monitor it instead of updating it yourself, you also
 	  should include `updateInvalid`.
 	-->
-  <SelectMenu/>
+<div class="wrapper">
+      <SelectMenu/>
+      <Preview/>
+
+</div>
+
+<style>
+  div.wrapper {
+    width: 95%;
+    height: 400px;
+    margin: auto;
+}
+</style>

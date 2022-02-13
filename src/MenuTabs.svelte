@@ -17,7 +17,7 @@
   </script>
 
 <div>
-    <form action="">
+
       <TabBar tabs={menuList} let:tab bind:active>
         <!-- Note: the `tab` property is required! -->
         <Tab {tab}>
@@ -26,6 +26,5 @@
       </TabBar>
       <MenuPickerLayout currentMenu={active}/>
       <pre class="status">Selected: {active}</pre>
-    </form>
     
   </div>

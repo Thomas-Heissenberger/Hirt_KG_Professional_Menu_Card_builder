@@ -32,6 +32,9 @@ let doc = new Docxtemplater();
 http
   .createServer((req, res) => {
     res.setHeader("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader("Access-Control-Allow-Headers","*");
+    res.setHeader("Access-Control-Allow-Methods","OPTIONS, GET, POST");
     let msg = "";
     console.log(req.method);
     switch (req.method) {
