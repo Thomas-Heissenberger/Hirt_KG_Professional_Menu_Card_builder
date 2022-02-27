@@ -1,7 +1,6 @@
 <script lang="ts">
     import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
     import MenuPickerLayout from './MenuPickerLayout.svelte'
-    import MenuPicker from './MenuPicker.svelte';
     import LayoutGrid, { Cell } from '@smui/layout-grid';
 import MenuTabs from './MenuTabs.svelte';
 

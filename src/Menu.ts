@@ -14,34 +14,36 @@ export enum WeekDays{
 
 export interface MenuItemType{
     id: number;
+    identifier: MenuUtils.Identifiers_Menu;
     name: string;
-    price: number;
+    price?: number;
 }
 
 export interface MenuListType{
     id: number;
-    identifier: MenuUtils.Identifiers;
+    identifier: MenuUtils.Identifiers_Caching;
     menuList: MenuItemType[];
 }
-
 export class MenuItem implements MenuItemType{
     id: number;
+    identifier: MenuUtils.Identifiers_Menu;
     name: string;
     price: number;
     
-    constructor(id: number=0, name: string="nix", price: number=-0.99){
+    constructor(id: number=0, identifier: MenuUtils.Identifiers_Menu, name: string="nix", price: number=0){
         this.id=id;
+        this.identifier=identifier;
         this.name=name;
         this.price=price;
     }
 
     static fromWeekItem(menuWeekItem: MenuItemType): MenuItem{
-        return new MenuItem(menuWeekItem.id, menuWeekItem.name, menuWeekItem.price);
+        return new MenuItem(menuWeekItem.id, menuWeekItem.identifier, menuWeekItem.name, menuWeekItem.price);
     }
 
 
     toString(){
-        return `\n${this.id}: ${this.name} ${this.price}`;
+        return `\n${this.id}: ${this.identifier} ${this.name} ${this.price}`;
     }
 }
 
@@ -49,8 +51,8 @@ export class MenuItemWeek extends MenuItem implements MenuItemType {
     date: Date;
     weekDay: WeekDays;
     
-    constructor(id: number=0, name: string="nix", price: number=-0.99, date: Date=new Date(), weekDay: WeekDays=WeekDays.Mo){
-        super(id, name, price);
+    constructor(id: number=0, identifier: MenuUtils.Identifiers_Menu, name: string="nix", price: number=-0.99, date: Date=new Date(), weekDay: WeekDays=WeekDays.Mo){
+        super(id, identifier, name, price);
         this.date=date;
         this.weekDay=weekDay;   
     }
@@ -61,7 +63,7 @@ export class MenuItemWeek extends MenuItem implements MenuItemType {
 }
 
 export class MenuList implements MenuListType{
-    constructor(public id: number= -1, public identifier: MenuUtils.Identifiers=MenuUtils.Identifiers.MENU_OVERVIEW, public menuList: MenuItemType[]=[]){}
+    constructor(public id: number= -1, public identifier: MenuUtils.Identifiers_Caching=MenuUtils.Identifiers_Caching.MENU_OVERVIEW, public menuList: MenuItemType[]=[]){}
 
     toString(){
         return `${this.id}: ${this.menuList}`; 
@@ -81,7 +83,7 @@ export class MenuUtils{
         });
     }
 
-    getNewIndex(identifier: MenuUtils.Identifiers): number{
+    getNewIndex(identifier: MenuUtils.Identifiers_Caching): number{
         if(get(this.CACHED_LIST)===undefined)
             this.loadList(identifier);
         let lastItem: MenuItemType = get(this.CACHED_LIST).menuList.pop();
@@ -89,11 +91,11 @@ export class MenuUtils{
         return lastItem.id+1;
     }
 
-    storeList(identifier: MenuUtils.Identifiers, menuList: MenuListType): void{
+    storeList(identifier: MenuUtils.Identifiers_Caching, menuList: MenuListType): void{
         this.CACHED_LIST.set(menuList);
     }
 
-    loadList(identifier: MenuUtils.Identifiers): MenuListType{
+    loadList(identifier: MenuUtils.Identifiers_Caching): MenuListType{
         if(get(this.CACHED_LIST)===undefined){
             let menu: MenuListType=JSON.parse(localStorage.getItem("CACHED_LIST"));
           //  console.log(menu.menuList);
@@ -103,15 +105,32 @@ export class MenuUtils{
         return get(this.CACHED_LIST);
     }
 
-    updateItem(identifier: MenuUtils.Identifiers, newItem: MenuItemType): void{ 
+    updateItem(identifier: MenuUtils.Identifiers_Caching, newItem: MenuItemType): void{ 
       let newList=this.loadList(identifier);
       newList.menuList[newList.menuList.findIndex(item=>item.id===newItem.id)]=newItem;
       this.storeList(identifier, newList);
     }
 }
 export namespace MenuUtils{
-    export enum Identifiers{
+    export enum Identifiers_Caching{
      MENU_OVERVIEW = "MENU_OVERVIEW",
      MENU_WEEK_LIST = "MENU_WEEK_LIST",
     }
+
+    export enum Identifiers_Menu{
+     MENU_MCSCHNITZEL = "MENU_MCSCHNITZEL",
+     MENU_MCPOMMES = "MENU_MCPOMMES",
+    }
+
+    //wos definieren wir als MenuObjekt, a Gonzes Menü oder an Teil 
+    // ✅ an Teil 
+    export class MenuObject {
+        
+        menuName: string;
+    }
+    // Folls mas brauchen: A Gonzes MC Menu
+    // export class AGonzesMCMenu {
+    //     menuList: MenuObject[];
+    //     price: number;
+    // }
 }

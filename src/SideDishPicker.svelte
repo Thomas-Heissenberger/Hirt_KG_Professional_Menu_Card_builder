@@ -4,35 +4,45 @@
     import Button, { Label } from '@smui/button';
     import Dialog, { Title, Content, Actions } from '@smui/dialog';
     import Textfield from '@smui/textfield';
-  
+    import {onMount} from 'svelte';
+    let json;
+
+   
     type Item = {
       id: number;
       label: string;
     };
-  
+    export let keyVal = "";
     let dialogOpen = false;
-    let options: Item[] = [
-      {
-        id: 0,
-        label: 'Schnitzl',
-      },
-      {
-        id: 1,
-        label: 'Pommes',
-      },
-      {
-        id: 2,
-        label: 'McSuppn',
-      },
-      {
-        id: 3,
-        label: 'Gulasch',
-      },
-      {
-        id: 4,
-        label: 'Solot',
-      },
-    ];
+    let options: Item[];
+    $: options;  
+    onMount(async ()=>{
+      await populateList();
+      value= {id: null, label:""}
+    })
+      
+    // [
+    //   {
+    //     id: 0,
+    //     label: 'Schnitzl',
+    //   },
+    //   {
+    //     id: 1,
+    //     label: 'Pommes',
+    //   },
+    //   {
+    //     id: 2,
+    //     label: 'McSuppn',
+    //   },
+    //   {
+    //     id: 3,
+    //     label: 'Gulasch',
+    //   },
+    //   {
+    //     id: 4,
+    //     label: 'Solot',
+    //   },
+    // ];
     let newLabel = '';
   
     let value: Item | undefined = undefined;
@@ -47,11 +57,28 @@
       value = newObject;
       dialogOpen = false;
     }
+
+    async function getJSON(){
+      let json;
+      await fetch("http://localhost:8081").then(response => response.json()).then(value=>{json=value; console.log(value)});
+      return json;
+    }
+    async function getList(input:string)
+    {
+      if(!options){
+        const json = await getJSON();
+        options = json.Beilagen.map((element, index)=>{return {id:index, label: element}});
+      }
+      return options.filter((e) => e.label.includes(input))
+      
+    } 
+
+    
   </script>
   
 <div>
     <Autocomplete
-      {options}
+      search={getList}
       getOptionLabel={(option) =>
         option ? `${option.label} (${option.id})` : ''}
       bind:value

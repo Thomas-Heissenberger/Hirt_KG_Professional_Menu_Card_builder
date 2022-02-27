@@ -1,7 +1,6 @@
 <script lang="ts">
   import Accordion, { Panel, Header, Content } from "@smui-extra/accordion";
   import Button, { Label } from "@smui/button";
-  import MenuPicker from "./MenuPicker.svelte";
   import LayoutGrid, { Cell } from "@smui/layout-grid";
   import SideDishPicker from "./SideDishPicker.svelte";
 import { afterUpdate } from "svelte";
@@ -25,21 +24,18 @@ import { afterUpdate } from "svelte";
     <Label>Beilage entfernen</Label>
   </Button>
   <LayoutGrid>
-    {#each Array(1) as _unused, i}
       <Cell>
         <div class="menuPicker">
-          <MenuPicker isInactive={false} bind:index={currentIndex}/>
+          <SideDishPicker keyVal={"Hauptspeise"}/>
         </div>
       </Cell>
-    {/each}
       <Cell>
         {#each Array(t) as _unused, i}
         <div class="menuPicker">
-          <SideDishPicker/>
+          <SideDishPicker keyVal={"Hauptspeise"}/>
         </div>
         {/each}
       </Cell>
-    
   </LayoutGrid>
 </div>
 

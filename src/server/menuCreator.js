@@ -8,25 +8,24 @@ const dotenv = require("dotenv");
 //* Setup/Config------------------------------------------------------------------------------------------------
 dotenv.config();
 const SERVERPORT = process.env.SERVERPORT;
+const INPUTDIRECTORY = process.env.INPUTDIRECTORY;
 const OUTPUTDIRECTORY = process.env.OUTPUTDIRECTORY;
 const EXTENSION = process.env.EXTENSION;
 const Paths = {
   TemplateDocx: path.resolve(
-    process.env.INPUTDIRECTORY,
+    INPUTDIRECTORY,
     process.env.TEMPLATEFILENAME + EXTENSION
   ),
   ResultDocx: path.resolve(
     OUTPUTDIRECTORY,
     process.env.RESULTFILENAME + EXTENSION
   ),
-  JSONData: path.resolve(OUTPUTDIRECTORY, process.env.JSONFILENAME + ".json"),
+  JSONData: path.resolve(INPUTDIRECTORY, process.env.JSONFILENAME + ".json"),
   PDFFile: path.resolve(OUTPUTDIRECTORY, process.env.RESULTFILENAME + ".pdf"),
   PNGFile: path.resolve(OUTPUTDIRECTORY, process.env.OUTPUTDIRECTORY + ".png"),
 };
 
-let content = fs.readFileSync(Paths.TemplateDocx);
-let zip = new PizZip(content);
-let doc = new Docxtemplater();
+let content;
 //* Setup/Config------------------------------------------------------------------------------------------------
 
 http
@@ -37,28 +36,33 @@ http
     res.setHeader("Access-Control-Allow-Methods","OPTIONS, GET, POST");
     let msg = "";
     console.log(req.method);
-    switch (req.method) {
-      case "POST":
-        msg = "POST";
+    let url= new URL(req.url, `http://${req.headers.host}`);
+      switch (req.method) {
+        case "POST":
+          content = fs.readFileSync(Paths.TemplateDocx);
+          let zip = new PizZip(content);
+          let doc = new Docxtemplater();
+
+          msg = "POST";
         doPost(req, res);
         break;
-      case "GET":
+        case "GET":
         msg = "GET";
         doGet(res);
         break;
-      default:
+        default:
         msg = "fuckyou";
         res.end(msg);
         break;
-    }
-  })
+      }
+    })
   .listen(SERVERPORT, () => {
     console.log(`menuCreator running at http://localhost:${SERVERPORT}`);
   });
 
 function doPost(req, res) {
   createDocx(req, res)
-    .then(({req, res}) => executePowershell(req,res))
+  .then(({req, res}) => executePowershell(req,res))
     .then(({req, res}) => preparePDFBody(req,res))
     .then(({req,res})=>res.end("leinwand oida"))
     .catch((error)=>{console.log(error); res.end("i hoss di, wegn dia is da server gstorbn")});

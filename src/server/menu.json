@@ -1,0 +1,20 @@
+{
+  "Hauptgerichte": [
+    "Schnitzel",
+    "Krautfleckerl",
+    "Gulasch",
+    "Kartoffelgulasch",
+    "Züricher Rahmgeschnetzeltes",
+    "Spaghetti Bolognese",
+    "Spaghetti Carbonara" 
+  ],
+  "Beilagen": [
+    "Pommes Frites",
+    "Spiegelei",
+    "Erbsenreis",
+    "Kräuterreis",
+    "Kräuterspätzle",
+    "Salat vom Buffet",
+    "Wokgemüse"
+  ]
+}
