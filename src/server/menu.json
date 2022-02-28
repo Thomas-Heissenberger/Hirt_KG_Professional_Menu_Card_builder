@@ -1,20 +1,20 @@
 {
   "Hauptgerichte": [
-    "Schnitzel",
-    "Krautfleckerl",
-    "Gulasch",
-    "Kartoffelgulasch",
-    "Züricher Rahmgeschnetzeltes",
-    "Spaghetti Bolognese",
-    "Spaghetti Carbonara" 
+    {"label":"Schnitzel", "instantAids":"A,C" },
+    {"label":"Krautfleckerl", "instantAids":"A,C" },
+    {"label":"Gulasch", "instantAids":"A,C" },
+    {"label":"Kartoffelgulasch", "instantAids":"A,C" },
+    {"label":"Züricher Rahmgeschnetzeltes", "instantAids":"A,C" },
+    {"label":"Spaghetti Bolognese", "instantAids":"A,C" },
+    {"label":"Spaghetti Carbonara", "instantAids":"A,C" }
   ],
   "Beilagen": [
-    "Pommes Frites",
-    "Spiegelei",
-    "Erbsenreis",
-    "Kräuterreis",
-    "Kräuterspätzle",
-    "Salat vom Buffet",
-    "Wokgemüse"
+    {"label":"Pommes Frites", "instantAids":"" },
+    {"label":"Spiegelei", "instantAids":"C" },
+    {"label":"Erbsenreis", "instantAids":"" },
+    {"label":"Kräuterreis", "instantAids":"" },
+    {"label":"Kräuterspätzle", "instantAids":"A,C" },
+    {"label":"Salat vom Buffet", "instantAids":"" },
+    {"label":"Wokgemüse", "instantAids":"" }
   ]
 }
