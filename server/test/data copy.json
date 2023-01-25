@@ -1,0 +1,35 @@
+{
+    "datumMontag":"",
+    "menuList":[
+        {
+            "menuNr":1,
+            "mcSchnitzel":"Tiroler Gröstl mit Spiegelei und Salat vom Buffet",
+            "preisVomMcSchnitzel":7.90,
+            "instantAids":"A,C,G"
+        },
+        {
+            "menuNr":2,
+            "mcSchnitzel":"Champignonrahmschnitzel mit Erbsenreis",
+            "preisVomMcSchnitzel":8.90,
+            "instantAids":"A,G"
+        },
+        {
+            "menuNr":3,
+            "mcSchnitzel":"Gemüse-Käselaibchen mit Schnittlauchrahmsauce",
+            "preisVomMcSchnitzel":9.90,
+            "instantAids":"A,C,G"
+        },
+        {
+            "menuNr":4,
+            "mcSchnitzel":"Schnitzelteller (Sesam-, Kürbiskern-, Wiener Schnitzel) mit Erbsenreis und Salat vom Buffet",
+            "preisVomMcSchnitzel":12.90,
+            "instantAids":"A,C,G,N"
+        },
+        {
+            "menuNr":5,
+            "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken mit Basmatireis und Rieslingersauce",
+            "preisVomMcSchnitzel":13.90,
+            "instantAids":"A,C,D,G,O"
+        }
+    ]
+}

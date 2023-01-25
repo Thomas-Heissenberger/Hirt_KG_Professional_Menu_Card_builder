@@ -1,0 +1,44 @@
+{
+    "menuList":[
+        {
+            "menuNr":1,
+            "mcSchnitzel":"Tiroler Gröstl mit Spiegelei und Salat vom Buffet",
+            "klansSchnitzel": "Salat vom Buffet",
+            "preisVomMcSchnitzel":7.90,
+            "instantAids":"A,C,G",
+            "datum":"2023-01-23"
+        },
+        {
+            "menuNr":2,
+            "mcSchnitzel":"Champignonrahmschnitzel mit Erbsenreis",
+            "klansSchnitzel": "Salat vom Buffet",
+            "preisVomMcSchnitzel":8.90,
+            "instantAids":"A,G",
+            "datum":"2023-01-25"
+        },
+        {
+            "menuNr":3,
+            "mcSchnitzel":"Gemüse-Käselaibchen mit Schnittlauchrahmsauce",
+            "klansSchnitzel": "Salat vom Buffet",
+            "preisVomMcSchnitzel":9.90,
+            "instantAids":"A,C,G",
+            "datum":"2023-01-26"
+        },
+        {
+            "menuNr":4,
+            "mcSchnitzel":"Schnitzelteller (Sesam-, Kürbiskern-, Wiener Schnitzel) mit Erbsenreis und Salat vom Buffet",
+            "preisVomMcSchnitzel":12.90,
+            "klansSchnitzel": "Salat vom Buffet",
+            "instantAids":"A,C,G,N",
+            "datum":"2023-01-27"
+        },
+        {
+            "menuNr":5,
+            "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken mit Basmatireis und Rieslingersauce",
+            "preisVomMcSchnitzel":13.90,
+            "instantAids":"A,C,D,G,O",
+            "klansSchnitzel": "Salat vom Buffet",
+            "datum":"2023-01-28"
+        }
+    ]
+}
