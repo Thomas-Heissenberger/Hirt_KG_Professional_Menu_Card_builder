@@ -1,6 +1,6 @@
-$documents_path = (Get-Content -Path '.\.env'| Where-Object {$_ -like '*OUTPUTDIRECTORY*'}).split("=")[1]
-$document_name = (Get-Content -Path '.\.env'| Where-Object { $_ -like '*RESULTFILENAME*'}).split("=")[1]
-$file_extension = (Get-Content -Path '.\.env'| Where-Object { $_ -like '*EXTENSION*'}).split("=")[1]
+$documents_path = (Get-Content -Path 'C:\Projekte\Hirt_KG_Menu_builder_Vue\.env'| Where-Object {$_ -like '*OUTPUTDIRECTORY*'}).split("=")[1]
+$document_name = (Get-Content -Path 'C:\Projekte\Hirt_KG_Menu_builder_Vue\.env'| Where-Object { $_ -like '*RESULTFILENAME*'}).split("=")[1]
+$file_extension = (Get-Content -Path 'C:\Projekte\Hirt_KG_Menu_builder_Vue\.env'| Where-Object { $_ -like '*EXTENSION*'}).split("=")[1]
 $total_filepath = $documents_path+"\"+$document_name+$file_extension
 
 

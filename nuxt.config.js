@@ -26,6 +26,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    //'~plugins/vue-datepicker-ui.js'
+    { src: '~plugins/v-calendar.js', ssr: false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -35,6 +37,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    '@nuxtjs/fontawesome'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -58,5 +61,14 @@ export default {
        **/
       autoImport: true
     }
+  },
+  
+  fontawesome: {
+    component: 'Fa',
+    suffix: false,
+    icons: {
+      solid: true
+    }
   }
+
 }

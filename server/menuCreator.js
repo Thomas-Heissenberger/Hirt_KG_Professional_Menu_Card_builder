@@ -9,7 +9,7 @@ const dotenv = require("dotenv");
 
 //* Setup/Config------------------------------------------------------------------------------------------------
 dotenv.config();
-
+//TODO: Paths in docx2pdf.ps1 to read from .env file are done statically
 const SERVERPORT = process.env.SERVERPORT;
 const OUTPUTDIRECTORY = process.env.OUTPUTDIRECTORY;
 const EXTENSION = process.env.EXTENSION;
@@ -28,11 +28,11 @@ const Paths = {
   PowershellScript: path.resolve(process.env.INPUTDIRECTORY, "docx2pdf.ps1"),
 };
 
-let content = fs.readFileSync(Paths.TemplateDocx);
-let zip = new PizZip(content);
-let doc = new Docxtemplater();
+//let content = fs.readFileSync(Paths.TemplateDocx);
+//let zip = new PizZip(content);
+//let doc = new Docxtemplater();
 //* Setup/Config------------------------------------------------------------------------------------------------
-
+let doc,zip,content;
 http
   .createServer((req, res) => {
     res.setHeader("Content-Type", "application/json");
@@ -40,7 +40,9 @@ http
     res.setHeader("Access-Control-Allow-Headers","*");
     res.setHeader("Access-Control-Allow-Methods","OPTIONS, GET, POST");
     let msg = "";
-
+    content = fs.readFileSync(Paths.TemplateDocx);
+    zip = new PizZip(content);
+    doc = new Docxtemplater();
     switch (req.method) {
       case "POST":
         msg = "POST";
@@ -51,7 +53,6 @@ http
         if(req.url==="/data"){
           getData(res);
         }else if(req.url==="/pdf"){
-          doc = new Docxtemplater();
           console.log("pdf")
           getPDF(res);
         }else{
@@ -98,6 +99,7 @@ function createDocxFromRequest(req, res) {
     req.on("data", (chunk) => (data += chunk));
     req.on("end", () => {
       try {
+        //console.log(JSON.parse(data));
         processData(JSON.parse(data));
       } catch (error) {
         reject(error);
@@ -113,12 +115,14 @@ function createDocxFromJSON(res, json) {
   return new Promise((resolve, reject) => {
       try {
         processData(json);
+        let buf = doc.getZip().generate({ type: "nodebuffer" });
+        fs.writeFileSync(Paths.ResultDocx, buf);
+        
+      resolve({json, res});
       } catch (error) {
         reject(error);
       }
-      let buf = doc.getZip().generate({ type: "nodebuffer" });
-      fs.writeFileSync(Paths.ResultDocx, buf);
-      resolve({json, res});
+      
  });
 }
 
