@@ -10,37 +10,32 @@
         <CSimpleGrid :columns="2" border-radius="1.5rem" margin="0.75rem" :bg="theme.secondary" w="70rem" h="46rem"
           spacing=".75rem" padding="2.5rem" boxShadow="lg">
           <CFlex flex-wrap="wrap">
-            <CList spacing="1.5rem">
-              <CInputGroup>
-                <CInputLeftElement>
-                  <date-picker v-model="selected.datum" mode="date" :masks="masks" z-index="999">
+            <CList spacing="1.5rem"> 
+              <!-- <CInputGroup z-index="999">                    
+                <CInputLeftElement usePortal>
+                  <date-picker v-model="selected.datum" date-format="small">
                     <template v-slot="{ inputValue, inputEvents }">
                       <fa :icon="['fas', 'calendar']" :value="inputValue" v-on="inputEvents"/>
                     </template>
                   </date-picker>
-                    
-                  
-                  
                 </CInputLeftElement>
-
-                
                 <CInput placeholder="Datum" size="md" v-model="selected.datum" />
-              </CInputGroup>
-              <!--<CInput placeholder="Select Week" size="md" type="text" v-model="selected.datum"/>-->
+              </CInputGroup> -->
+              <CInput placeholder="Select Week" size="md" type="date" v-model="selected.datum"/>
               <CInput placeholder="Gericht" size="md" v-model="selected.mcSchnitzel" />
               <CInput placeholder="Beilage (optional)" size="md" v-model="selected.klansSchnitzel" />
               <CInputGroup>
-                <CInputLeftElement>
+                <CInputRightElement>
                   <fa :icon="['fas', 'euro']" />
-                </CInputLeftElement>
+                </CInputRightElement>
                 <CInput placeholder="Preis" size="md" v-model="selected.preisVomMcSchnitzel" />
               </CInputGroup>
               <CInput placeholder="Allergene" size="md" v-model="selected.instantAids" />
               <CStack spacing="4" align-items="start" is-inline flex-wrap="wrap">
-                <CTag v-for="allergen in hiv.split(',')" size="lg" :key="allergen" borderRadius='full' variant='solid'
-                  :variantColor="isPositive(allergen) ? theme.selected : theme.unselected" margin=".25rem">
-                  <CButton @click="(e) => { e.preventDefault(); detectAids(allergen) }" w="0" h="0">{{ allergen }}</CButton>
-                </CTag>
+                <CButton v-for="allergen in hiv.split(',')" size="sm" :key="allergen" width="4rem" borderRadius='full' color="whiteAlpha.900"
+                  :variantColor="isPositive(allergen) ? theme.selected : theme.unselected" margin=".25rem" v-on:click="detectAids(allergen)">
+                  {{ allergen }}
+                </CButton>
               </CStack>
               <CDivider />
               <CStack spacing="4" align="center" is-inline wrap>
@@ -59,6 +54,7 @@
 
               </CStack>
             </CList>
+
             <CIconButton @click="toggleColorMode" align-self="flex-end" aria-label="Change Theme" color="whiteAlpha.900"
               :icon="colorMode === 'light' ? 'sun' : 'moon'"
               :bg="colorMode === 'light' ? theme.unselected + '.500' : theme.unselected + '.300'" :_hover="theme.unselected"
@@ -66,11 +62,13 @@
 
           </CFlex>
           <CFlex spacing="4">
-            <CImage v-if="currentPDF == ''"
+            <date-picker v-if="currentPDF === ''" is-expanded :is-dark="colorMode==='dark'"
+                v-model="selected.datum" :model-config="modelConfig" is-required
+            />
+            <!-- <CImage v-if="currentPDF === ''"
               src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-              alt='Green double couch with wooden legs' borderRadius='lg' max-width="100%" max-height="50%" />
-            <iframe :src="currentPDF" id="pdfFrame" width="100%" height="100%" frameborder="0" />
-
+              alt='Green double couch with wooden legs' borderRadius='lg' max-width="100%" max-height="50%" /> -->
+            <iframe v-if="this.currentPDF !== ''" :src="currentPDF" id="pdfFrame" width="100%" height="100%" frameborder="0" />
           </CFlex>
         </CSimpleGrid>
       </CBox>
@@ -117,27 +115,23 @@ export default {
           unselected: "blackAlpha"
         }
       },
-      sizes: ["sm", "md", "lg"],
       menuList: [],
       currIdx: 0,
       selected: {
-        "menuNr": "",
-        "mcSchnitzel": "",
-        "preisVomMcSchnitzel": "",
-        "klansSchnitzel": "",
-        "instantAids": '',
-        "datum": (() => { let today = new Date(); return today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate(); })()
+        menuNr: "",
+        mcSchnitzel: "",
+        preisVomMcSchnitzel: "",
+        klansSchnitzel: "",
+        instantAids: '',
+        datum: (() => { let today = new Date(); return today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate(); })()
       },
       currentPDF: "",
       hiv: "A,B,C,D,E,F,G,H,I,J,K,L",
       isLoading: false,
-      dateRange: [
-        new Date(),
-        new Date(new Date().getTime() + 4 * 24 * 60 * 60 * 1000)
-      ],
-      masks: {
-        input: 'YYYY-MM-DD',
-      },
+      modelConfig: {
+        type: 'string',
+        mask: 'YYYY-MM-DD',
+      }
     };
   },
   methods: {
@@ -175,18 +169,6 @@ export default {
           this.currentPDF = URL.createObjectURL(blob) + '#view=fit';
           this.isLoading = false;
         });
-      /*
-              axios.post('http://localhost:8081', JSON.stringify({menuList:this.json}), {'Content-Type': 'application/json', 'responseType':'blob'})
-                .then(response=>{
-                    this.currentPDF=URL.createObjectURL(response.data);
-                    let iframe=document.getElementById("pdfFrame");
-                    //iframe.parentNode.style.height="100%";
-                    //iframe.parentNode.style.width="100%";
-                    //iframe.style.height="100%";
-                    //iframe.style.width="100%";
-                    this.isLoading=false;
-    
-              });*/
     },
     isPositive(hiv) {
       return this.selected.instantAids.includes(hiv);
@@ -212,9 +194,6 @@ export default {
       this.selected.instantAids = arr.join(',');
     },
     next() {
-      console.log(this.currIdx);
-      console.log(this.menuList.length - 1);
-      console.log(this.menuList.length);
       if (this.currIdx < this.menuList.length - 1) {
         this.currIdx++;
         this.selected = this.menuList[this.currIdx];
@@ -226,9 +205,11 @@ export default {
         this.selected = this.menuList[this.currIdx];
       }
     },
-    pickDate() {
 
+    showPDF(){
+      return this.currentPDF !== '';
     }
+    
   },
 }
 </script>
