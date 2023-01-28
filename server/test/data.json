@@ -5,7 +5,7 @@
             "mcSchnitzel":"Tiroler Gröstl",
             "preisVomMcSchnitzel":7.90,
             "instantAids":"A,C,G",
-            "datum": "2023-01-25",
+            "datum": "2023-01-23",
             "klansSchnitzel": "Spiegelei und Salat vom Buffet"
         },
         {
@@ -13,7 +13,7 @@
             "mcSchnitzel":"Champignonrahmschnitzel",
             "preisVomMcSchnitzel":8.90,
             "instantAids":"A,G",
-            "datum": "2023-01-25",
+            "datum": "2023-01-24",
             "klansSchnitzel": "Erbsenreis"
         },
         {
@@ -29,7 +29,7 @@
             "mcSchnitzel":"Schnitzelteller (Sesam-, Kürbiskern-, Wiener Schnitzel)",
             "preisVomMcSchnitzel":12.90,
             "instantAids":"A,C,G,N",
-            "datum": "2023-01-25",
+            "datum": "2023-01-26",
             "klansSchnitzel": "Erbsenreis und Salat vom Buffet"
         },
         {
@@ -37,7 +37,24 @@
             "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken",
             "preisVomMcSchnitzel":13.90,
             "instantAids":"A,C,D,G,O",
-            "datum": "2023-01-25",
+            "datum": "2023-01-27",
+            "klansSchnitzel": "Basmatireis und Rieslingersauce"
+        },
+        
+        {
+            "menuNr":6,
+            "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken",
+            "preisVomMcSchnitzel":13.90,
+            "instantAids":"A,C,D,G,O",
+            "datum": "2023-01-28",
+            "klansSchnitzel": "Basmatireis und Rieslingersauce"
+        },        
+        {
+            "menuNr":7,
+            "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken",
+            "preisVomMcSchnitzel":13.90,
+            "instantAids":"A,C,D,G,O",
+            "datum": "2023-01-28",
             "klansSchnitzel": "Basmatireis und Rieslingersauce"
         }
     ]

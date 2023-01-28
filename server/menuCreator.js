@@ -32,7 +32,7 @@ const Paths = {
 //let zip = new PizZip(content);
 //let doc = new Docxtemplater();
 //* Setup/Config------------------------------------------------------------------------------------------------
-let doc,zip,content;
+let doc, zip, content, fileIsBlocked;
 http
   .createServer((req, res) => {
     res.setHeader("Content-Type", "application/json");
@@ -75,7 +75,7 @@ function doPost(req, res) {
     .then(({req, res}) => executePowershell(req,res))
     .then(({req, res}) => preparePDFBody(req,res))
     .then(({req, res})=>res.end("leinwand oida"))
-    .catch((error)=>{console.log(error); res.end("i hoss di, wegn dia is da server gstorbn")});
+    .catch((error)=>{res.statusCode=503; res.end(error.toString())});
 }
 
 function getPDF(res) {
@@ -84,7 +84,7 @@ function getPDF(res) {
       .then(({data, res}) => executePowershell(data,res))
       .then(({data, res}) => preparePDFBody(data,res))
       .then(({data, res}) => res.end(`${"test"}` ))
-      .catch(error=>{console.log(error); res.end("server died while processing get")})
+      .catch(error=>{console.log(error); res.send("server died while processing get " + error.toString())})
     //createPNG(); => not used as we generate pdfs anyways
   });
 }
@@ -105,8 +105,12 @@ function createDocxFromRequest(req, res) {
         reject(error);
       }
       let buf = doc.getZip().generate({ type: "nodebuffer" });
-      fs.writeFileSync(Paths.ResultDocx, buf);
-      resolve({req, res});
+      if(!fileIsBlocked){
+        fs.writeFileSync(Paths.ResultDocx, buf);
+        resolve({req, res});
+      }else{
+        reject(new Error('Result file is still busy or another request is still processing'));
+      }
     });
  });
 }
@@ -117,7 +121,6 @@ function createDocxFromJSON(res, json) {
         processData(json);
         let buf = doc.getZip().generate({ type: "nodebuffer" });
         fs.writeFileSync(Paths.ResultDocx, buf);
-        
       resolve({json, res});
       } catch (error) {
         reject(error);
@@ -149,6 +152,7 @@ function executePowershell(req, res) {
     let spawn = require("child_process").spawn, child;
       console.log("powershell start");
       console.log(Paths.PowershellScript);
+      fileIsBlocked=true;
     child = spawn("powershell.exe", [Paths.PowershellScript]);
     child.stdout.on("data", (data) => console.log("Powershell Data: " + data));
     child.stderr.on("data", (data) => {
@@ -157,6 +161,7 @@ function executePowershell(req, res) {
     });
     child.on("exit", () => {
       console.log("Powershell Script finished");
+      fileIsBlocked=false;
       resolve({req, res});
     });
     child.stdin.end();
@@ -187,5 +192,5 @@ function readFilePromise(useDataCallback) {
     .then((data) => {
       useDataCallback(JSON.parse(data));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log('des is a error' + err));
 }
