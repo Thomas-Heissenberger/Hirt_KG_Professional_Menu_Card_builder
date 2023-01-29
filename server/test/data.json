@@ -43,15 +43,7 @@
         
         {
             "menuNr":6,
-            "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken",
-            "preisVomMcSchnitzel":13.90,
-            "instantAids":"A,C,D,G,O",
-            "datum": "2023-01-28",
-            "klansSchnitzel": "Basmatireis und Rieslingersauce"
-        },        
-        {
-            "menuNr":7,
-            "mcSchnitzel":"Zanderfilet gegrillt mit Mozarella und Tomatenscheiben überbacken",
+            "mcSchnitzel":"Zanderfilet gegrillt mit Mortadella und Tomatenscheiben überbacken",
             "preisVomMcSchnitzel":13.90,
             "instantAids":"A,C,D,G,O",
             "datum": "2023-01-28",

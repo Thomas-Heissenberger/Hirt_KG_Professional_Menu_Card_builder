@@ -10,7 +10,7 @@
         <CSimpleGrid :columns="2" border-radius="1.5rem" margin="0.75rem" :bg="theme.secondary" w="70rem" h="46rem"
           spacing=".75rem" padding="2.5rem" boxShadow="lg">
           <CFlex flex-wrap="wrap">
-            <CList spacing="1.5rem"> 
+            <CList spacing="1.5rem">
               <!-- <CInputGroup z-index="999">                    
                 <CInputLeftElement usePortal>
                   <date-picker v-model="selected.datum" date-format="small">
@@ -21,64 +21,77 @@
                 </CInputLeftElement>
                 <CInput placeholder="Datum" size="md" v-model="selected.datum" />
               </CInputGroup> -->
-              <CInput placeholder="Select Week" size="md" type="date" v-model="selected.datum" disabled/>
-              <CInput placeholder="Gericht" size="md" v-model="selected.mcSchnitzel" />
-              <CInput placeholder="Beilage (optional)" size="md" v-model="selected.klansSchnitzel" />
+              <CInput placeholder="Select Week" size="md" type="date" v-model="selected.datum" disabled  boxShadow="md"/>
+              <CInput placeholder="Gericht" size="md" v-model="selected.mcSchnitzel"  boxShadow="md"/>
+              <CInput placeholder="Beilage (optional)" size="md" v-model="selected.klansSchnitzel"  boxShadow="md" />
               <CInputGroup>
                 <CInputRightElement>
                   <fa :icon="['fas', 'euro']" />
                 </CInputRightElement>
-                <CInput placeholder="Preis" size="md" v-model="selected.preisVomMcSchnitzel" />
+                <CInput placeholder="Preis" size="md" v-model="selected.preisVomMcSchnitzel"  boxShadow="md"/>
               </CInputGroup>
-              <CInput placeholder="Allergene" size="md" v-model="selected.instantAids" />
+              <CInput placeholder="Allergene" size="md" v-model="selected.instantAids"  boxShadow="md"/>
               <CStack spacing="4" align-items="start" is-inline flex-wrap="wrap">
                 <CButton v-for="allergen in hiv.split(',')" size="sm" :key="allergen" width="4rem" borderRadius='full'
-                  margin=".25rem" v-on:click="detectAids(allergen)"
-                  color="whiteAlpha.900" :bg="isPositive(allergen) ? theme.primary : colorMode==='light' ? theme.unselected + '.500' : theme.unselected + '.300'"
-                  :_hover="{ bg: isPositive(allergen) ? theme.glow : theme.unselected + '.600' }" :_active="{ bg: isPositive(allergen) ? theme.highlight : theme.unselected + '.700' }" 
-                  >
+                  margin=".25rem" v-on:click="detectAids(allergen)" color="whiteAlpha.900"
+                  :bg="isPositive(allergen) ? theme.primary : colorMode === 'light' ? theme.unselected + '.500' : theme.unselected + '.300'"
+                  :_hover="{ bg: isPositive(allergen) ? theme.glow : theme.unselected + '.600' }"
+                  :_active="{ bg: isPositive(allergen) ? theme.highlight : theme.unselected + '.700' }" boxShadow="md">
                   {{ allergen }}
                 </CButton>
               </CStack>
               <CDivider />
               <CStack spacing="4" align="center" is-inline wrap>
+                <CButton @click="createMenu" :disabled="Number.isInteger(selected.menuNr)" aria-label="Save Settings"
+                  color="whiteAlpha.900" :bg="theme.primary" :_hover="{ bg: theme.glow }"
+                  :_active="{ bg: theme.highlight }" boxShadow="md">
+                  <fa :icon="['fas', 'floppy-disk']" />
+                </CButton>
+                <CButton @click="removeMenu" :disabled="!Number.isInteger(selected.menuNr)" aria-label="Save Settings"
+                  color="whiteAlpha.900" :bg="theme.primary" :_hover="{ bg: theme.glow }"
+                  :_active="{ bg: theme.highlight }" boxShadow="md">
+                  <fa :icon="['fas', 'trash']" />
+                </CButton>
                 <CButton @click="getSchnitzel" color="whiteAlpha.900" :bg="theme.primary" :_hover="{ bg: theme.glow }"
-                  :_active="{ bg: theme.highlight }">GET</CButton>
+                  :_active="{ bg: theme.highlight }" boxShadow="md">GET</CButton>
                 <CButton @click="postSchnitzel" :disabled="isLoading" color="whiteAlpha.900" :bg="theme.primary"
-                  :_hover="{ bg: theme.glow }" :_active="{ bg: theme.highlight }">POST</CButton>
+                  :_hover="{ bg: theme.glow }" :_active="{ bg: theme.highlight }" boxShadow="md">POST</CButton>
                 <CSpinner v-if="isLoading" :color="theme.color" />
 
                 <CIconButton @click="previous" :disabled="currIdx === 0" margin-left="auto" aria-label="Go Previous"
                   icon="chevron-left" color="whiteAlpha.900" :bg="theme.primary" :_hover="{ bg: theme.glow }"
-                  :_active="{ bg: theme.highlight }">Servas</CIconButton>
+                  :_active="{ bg: theme.highlight }" boxShadow="md">Servas</CIconButton>
                 <CIconButton @click="next" :disabled="menuList.length === 0 || currIdx === menuList.length - 1"
                   aria-label="Go Next" icon="chevron-right" color="whiteAlpha.900" :bg="theme.primary"
-                  :_hover="{ bg: theme.glow }" :_active="{ bg: theme.highlight }" />
+                  :_hover="{ bg: theme.glow }" :_active="{ bg: theme.highlight }" boxShadow="md"/>
 
               </CStack>
-              <CText v-if="error.msg" color="red.400" fontSize="3xl" font-weight="semibold" margin-bottom="0">{{ error.msg }}</CText>
-              <CText v-if="error.suggestion" color="red.400" fontSize="3xl" font-weight="semibold" margin-top="0">{{ error.suggestion }}</CText>
+              <CText v-if="error.msg" color="red.400" fontSize="3xl" font-weight="semibold" margin-bottom="0">{{
+                error.msg
+              }}</CText>
+              <CText v-if="error.suggestion" color="red.400" fontSize="3xl" font-weight="semibold" margin-top="0">{{
+                error.suggestion
+              }}</CText>
             </CList>
             <CIconButton @click="toggleColorMode" align-self="flex-end" aria-label="Change Theme" color="whiteAlpha.900"
               :icon="colorMode === 'light' ? 'sun' : 'moon'"
-              :bg="colorMode === 'light' ? theme.unselected + '.500' : theme.unselected + '.300'" :_hover="theme.unselected"
-              :_active="theme.unselected" />
-              <CButton margin-left="auto" @click="toggleView" align-self="flex-end" aria-label="Change Theme" color="whiteAlpha.900"
-              :icon="colorMode === 'light' ? 'sun' : 'moon'"
-              :bg="colorMode === 'light' ? theme.unselected + '.500' : theme.unselected + '.300'" :_hover="theme.unselected"
-              :_active="theme.unselected">Switch View</CButton>
+              :bg="colorMode === 'light' ? theme.unselected + '.500' : theme.unselected + '.300'"
+              :_hover="theme.unselected" :_active="theme.unselected" boxShadow="md"/>
+            <CButton margin-left="auto" @click="toggleView" align-self="flex-end" aria-label="Change Theme"
+              color="whiteAlpha.900" :icon="colorMode === 'light' ? 'sun' : 'moon'"
+              :bg="colorMode === 'light' ? theme.unselected + '.500' : theme.unselected + '.300'"
+              :_hover="theme.unselected" :_active="theme.unselected" boxShadow="md">Switch View</CButton>
           </CFlex>
-          <CFlex spacing="4">
-            <date-picker v-if="!showPDF" is-expanded :is-dark="colorMode==='dark'" color="teal"
-                :value="selected.datum" :model-config="modelConfig" :attributes="calendarAttrs"
-                @dayclick="updateSelected"
-            />
+          <CFlex spacing="4" justify-content="center" :align-items="showPDF ? 'center' : 'none'">
+            <date-picker v-if="!showPDF" is-expanded :is-dark="colorMode === 'dark'" color="teal" :value="selected.datum"
+              :model-config="modelConfig" :attributes="calendarAttrs" @dayclick="updateSelected" :key="datePickerKey" boxShadow="md"/>
             <!-- <CImage v-if="currentPDF === ''"
               src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
               alt='Green double couch with wooden legs' borderRadius='lg' max-width="100%" max-height="50%" /> -->
-            <CText v-if="showPDF && currentPDF===''">No PDF available, try posting your input to the server to get a pdf</CText>
-            <iframe v-if="showPDF" :src="currentPDF" id="pdfFrame" width="100%" height="100%" frameborder="0" />
-           
+            <CText v-if="showPDF && currentPDF === ''">No PDF available, try posting your input to the server to get a PDF
+            </CText>
+            <iframe v-if="showPDF && currentPDF !== ''" :src="currentPDF" id="pdfFrame" width="100%" height="100%" frameborder="0"  boxShadow="md" />
+
           </CFlex>
         </CSimpleGrid>
       </CBox>
@@ -87,13 +100,15 @@
 
 </template>
 <script>
-const emptyMenu={
-  menuNr: -1,
-  mcSchnitzel: "",
-  preisVomMcSchnitzel: "",
-  klansSchnitzel: "",
-  instantAids: '',
-  datum: ''
+const emptyMenu = (date)=> { 
+  return {
+    menuNr: null,
+    mcSchnitzel: "",
+    preisVomMcSchnitzel: "",
+    klansSchnitzel: "",
+    instantAids: '',
+    datum: date?date:''
+  }
 }
 export default {
   inject: ["$chakraColorMode", "$toggleColorMode"],
@@ -124,7 +139,7 @@ export default {
       menuList: [],
       currIdx: 0,
       selected: {
-        menuNr: -1,
+        menuNr: null,
         mcSchnitzel: "",
         preisVomMcSchnitzel: "",
         klansSchnitzel: "",
@@ -144,7 +159,7 @@ export default {
         suggestion: ''
       },
       selectedDay: (() => { let today = new Date(); return today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate(); })(),
-     
+      datePickerKey: 0, 
     };
   },
   computed: {
@@ -156,8 +171,10 @@ export default {
     },
     theme() {
       return this.mainStyles[this.colorMode];
-    }, 
-    calendarAttrs(){
+    },
+    calendarAttrs() {
+      console.log("UPDATE");
+      console.log(this.menuList);
       return [
         ...this.menuList.map(menuItem => ({
           key: 'menuNr: ' + menuItem.id,
@@ -170,8 +187,8 @@ export default {
   },
 
   methods: {
-    async getSchnitzel() {
-  
+    getSchnitzel() {
+      console.time('requested JSON Data');
       fetch('http://localhost:8081/data', {
         method: 'GET',
         headers: {
@@ -182,18 +199,27 @@ export default {
         .then(data => {
           this.menuList = data.menuList;
           this.selected = this.menuList[this.currIdx];
-          this.selectedDay=this.selected.datum;
-        }).catch(error=>{
-          this.error.msg=error;
-          this.error.suggestion= 'Is the server turned on?';
+          this.selectedDay = this.selected.datum;
+          console.timeEnd('requested JSON Data');
+          console.table(this.menuList.map(menuItem=>({
+              MenuNr: menuItem.menuNr,
+              Hauptgericht: menuItem.mcSchnitzel,
+              Beilage: menuItem.klansSchnitzel,
+              Preis:  menuItem.preisVomMcSchnitzel,
+              Allergene: menuItem.instantAids,
+              Datum: menuItem.datum
+          })));
+        }).catch(error => {
+          this.error.msg = error;
+          this.error.suggestion = 'Is the server turned on?';
+          console.timeEnd('requested JSON Data');
         });
       //  this.menuList = res.data.menuList;
 
     },
-    async postSchnitzel() {
+    postSchnitzel() {
+      console.time('requested PDF');
       this.isLoading = true;
-
-      let data = { menuList: this.menuList };
       //data.instantAids=data.instantAids.join(',');
 
       fetch('http://localhost:8081', {
@@ -202,20 +228,25 @@ export default {
           'Content-Type': 'application/json'
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-      }).then(res=>{
-        if(res.ok===false)throw new Error();
+        body: JSON.stringify({ menuList: this.menuList }) // body data type must match "Content-Type" header
+      }).then(res => {
+        if (res.ok === false) throw new Error();
+        
         return res;
       })
         .then(response => response.blob())
         .then(blob => {
-          console.log(blob);
           this.currentPDF = URL.createObjectURL(blob) + '#view=fit';
           this.isLoading = false;
+          this.toggleView();
+          
+          console.timeEnd('requested PDF');
         })
-        .catch(error=>{
-          this.error.msg=error;
-          this.isLoading=false;
+        .catch(error => {
+          this.error.msg = error;
+          this.isLoading = false;
+          
+          console.timeEnd('requested PDF');
         })
     },
     isPositive(hiv) {
@@ -242,52 +273,93 @@ export default {
       this.selected.instantAids = arr.join(',');
     },
     next() {
-      //updateIndex();
+      //this.updateIndex();
 
-      if (this.currIdx < this.menuList.length - 1) {
+      if (this.currIdx < this.menuList.length) {
         this.currIdx++;
         this.selected = this.menuList[this.currIdx];
-        this.selectedDay=this.selected.datum;
+        this.selectedDay = this.selected.datum;
       }
+      console.info(this.currIdx + ' / ' + this.menuList.length-1);
     },
     previous() {
-      //updateIndex();
+      //this.updateIndex();
 
       if (this.currIdx > 0) {
         this.currIdx--;
         this.selected = this.menuList[this.currIdx];
-        this.selectedDay=this.selected.datum;
+        this.selectedDay = this.selected.datum;
       }
+      console.info(this.currIdx + ' / ' + this.menuList.length-1);
     },
-    updateIndex(){
-      this.menuList.forEach((el, idx)=>{
-        if(el.menuNr===this.selected.menuNr){
-          this.currIdx=idx;
-          this.selectedDay=this.selected.datum;
+    updateIndex() {
+      this.menuList.forEach((el, idx) => {
+        if (el.menuNr === this.selected.menuNr) {
+          this.currIdx = idx;
+          this.selectedDay = this.selected.datum;
         }
       });
     },
 
-    toggleView(){
-      this.showPDF=!this.showPDF;
+    toggleView() {
+      this.showPDF = !this.showPDF;
     },
-    updateSelected(dateClicked){
-      let attr=dateClicked.attributes[0];
-      
-      if(attr){
-        this.selected=attr.customData
-      }else{
-        let newMenu = emptyMenu;
+    updateSelected(dateClicked) {
+      let attr = dateClicked.attributes[0];
+
+      if (attr) {
+        this.selected = attr.customData
+      } else {
         console.log(dateClicked);
-        newMenu.datum=dateClicked.id
-        this.selected=newMenu;
+        this.selected = emptyMenu(dateClicked.id);
         //TODO: Save settinsg on button click
         console.log("did nothing");
       }
-      
+
       this.updateIndex();
-    } 
-    
+    },
+    createMenu() {
+      let id = this.getNewIndex();
+      this.selected.menuNr = id;
+      this.menuList.push(this.selected);
+      this.$toast({
+        title: 'Menu Created!',
+        description: 'Id: ' + this.selected.menuNr + ' - '+this.selected.mcSchnitzel + ' ' + this.selected.klansSchnitzel,
+        status: 'success',
+        isClosable: true
+      });
+    },
+    getNewIndex() {
+      return this.menuList.length > 0 ? this.menuList[this.menuList.length - 1].menuNr + 1 : 0;
+    },
+    removeMenu() {
+      let removed = this.menuList.filter(el => el.menuNr === this.selected.menuNr);
+     // let newList = (()=>this.menuList.filter(el => el.menuNr !== this.selected.menuNr))();
+      console.log(removed);
+      this.menuList = this.menuList.filter(el => el.menuNr !== this.selected.menuNr);
+      this.selected = removed?emptyMenu(removed[0].datum):this.selected;
+      this.forceCalendarRerender();
+      //this.currIdx = 0; TODO: update index after delete
+      this.$toast({
+        title: 'Menu Removed!',
+        description: removed.menuNr!==null ? 'Id: ' + removed[0].menuNr + ' - '+removed[0].mcSchnitzel+' '+removed[0].klansSchnitzel : 'Could not remove entry from List',
+        status: removed ? 'info' : 'error',
+        duration: 10000,
+        isClosable: true
+      });
+      console.table(this.menuList.map(menuItem=>({
+              MenuNr: menuItem.menuNr,
+              Hauptgericht: menuItem.mcSchnitzel,
+              Beilage: menuItem.klansSchnitzel,
+              Preis:  menuItem.preisVomMcSchnitzel,
+              Allergene: menuItem.instantAids,
+              Datum: menuItem.datum
+          })));
+    },
+    forceCalendarRerender(){ //!!! DON'T DELETE THIS => fixes a bug where, when removing an element form the menuList the calendar won't update
+      this.datePickerKey += 1;
+    }
+
   },
 }
 </script>
